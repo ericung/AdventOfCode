@@ -10,11 +10,12 @@ namespace AdventOfCode2022.Tests
         {
             #region Arrange
             string text;
-            using (var streamReader = new StreamReader(@"C:\Users\eric.ung\source\repos\AdventOfCode\AdventOfCode2022.Tests\Files\input.txt", Encoding.UTF8))
+            using (var streamReader = new StreamReader(Helper.GetFilePath("input.txt"), Encoding.UTF8))
             {
                 text = streamReader.ReadToEnd();
             }
 
+            text = text.Replace("\r", "");
             string[] strings = text.Split(new char[] { '\n' });
 
             List<IList<int>> list = new List<IList<int>>();
@@ -51,11 +52,12 @@ namespace AdventOfCode2022.Tests
         {
             #region Arrange
             string text;
-            using (var streamReader = new StreamReader(@"C:\Users\eric.ung\source\repos\AdventOfCode\AdventOfCode2022.Tests\Files\input.txt", Encoding.UTF8))
+            using (var streamReader = new StreamReader(Helper.GetFilePath("input.txt"), Encoding.UTF8))
             {
                 text = streamReader.ReadToEnd();
             }
 
+            text = text.Replace("\r", "");
             string[] strings = text.Split(new char[] { '\n' });
 
             List<IList<int>> list = new List<IList<int>>();

@@ -11,50 +11,21 @@ namespace AdventOfCode2022
         public int GameScore(IList<IList<char>> list)
         {
             int n = list.Count;
-            Dictionary<char, char>[] map = new Dictionary<char, char>[3];
-            map[0] = new Dictionary<char, char>()
+            Dictionary<char, char> map = new Dictionary<char, char>()
             {
                 {'X', 'A' },
                 {'Y', 'B' },
                 {'Z', 'C' }
             };
-            map[1] = new Dictionary<char, char>()
-            {
-                {'X', 'B' },
-                {'Y', 'C' },
-                {'Z', 'A' }
-            };
-            map[2] = new Dictionary<char, char>()
-            {
-                {'X', 'C' },
-                {'Y', 'A' },
-                {'Z', 'B' }
-            };
-
-            int[][] dp = new int[n][];
+            
+            int score = 0;
 
             for (int i = 0; i < n; i++)
             {
-                dp[i] = new int[3];
+                score += GetScore(list[i][0], map[list[i][1]]);
             }
 
-            for (int i = 0; i < n; i++)
-            {
-                if (i > 0)
-                {
-                    dp[i][0] = dp[i - 1][0] + GetScore(list[i][0], map[0][list[i][1]]);
-                    dp[i][1] = dp[i - 1][1] + GetScore(list[i][0], map[1][list[i][1]]);
-                    dp[i][2] = dp[i - 1][2] + GetScore(list[i][0], map[2][list[i][1]]);
-                }
-                else
-                {
-                    dp[i][0] = GetScore(list[i][0], map[0][list[i][1]]);
-                    dp[i][1] = GetScore(list[i][0], map[1][list[i][1]]);
-                    dp[i][2] = GetScore(list[i][0], map[2][list[i][1]]);
-                }
-            }
-
-            return dp[n-1][0];
+            return score;
         }
 
         public int GameScore2(IList<IList<char>> list)

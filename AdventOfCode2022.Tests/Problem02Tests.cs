@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 
 namespace AdventOfCode2022.Tests
 {
@@ -14,11 +10,12 @@ namespace AdventOfCode2022.Tests
         {
             #region Arrange
             string text;
-            using (var streamReader = new StreamReader(@"C:\Users\eric.ung\source\repos\AdventOfCode\AdventOfCode2022.Tests\Files\problem02input.txt", Encoding.UTF8))
+            using (var streamReader = new StreamReader(Helper.GetFilePath("problem02input.txt"), Encoding.UTF8))
             {
                 text = streamReader.ReadToEnd();
             }
 
+            text = text.Replace("\r", "");
             string[] strings = text.Split(new char[] { '\n' });
 
             List<IList<char>> list = new List<IList<char>>();
@@ -54,16 +51,17 @@ namespace AdventOfCode2022.Tests
         {
             #region Arrange
             string text;
-            using (var streamReader = new StreamReader(@"C:\Users\eric.ung\source\repos\AdventOfCode\AdventOfCode2022.Tests\Files\problem02input.txt", Encoding.UTF8))
+            using (var streamReader = new StreamReader(Helper.GetFilePath("problem02input.txt"), Encoding.UTF8))
             {
                 text = streamReader.ReadToEnd();
             }
 
+            text = text.Replace("\r", "");
             string[] strings = text.Split(new char[] { '\n' });
 
             List<IList<char>> list = new List<IList<char>>();
 
-            List<char> newList = new List<char>();
+            string startupPath = Path.Combine(Directory.GetParent(System.IO.Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName, "abc.txt"); List<char> newList = new List<char>();
 
             foreach (string s in strings)
             {
