@@ -42,7 +42,7 @@ namespace AdventOfCode2022.Tests
             #endregion
 
             #region Assert
-            Assert.AreEqual(score, 13221);
+            Assert.AreEqual(13221, score);
             #endregion
         }
 
@@ -83,7 +83,7 @@ namespace AdventOfCode2022.Tests
             #endregion
 
             #region Assert
-            Assert.AreEqual(score, 13131);
+            Assert.AreEqual(13131, score);
             #endregion
         }
     }

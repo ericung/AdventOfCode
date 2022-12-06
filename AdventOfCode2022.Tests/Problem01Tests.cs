@@ -43,7 +43,7 @@ namespace AdventOfCode2022.Tests
             #endregion
 
             #region Assert
-            Assert.AreEqual(calories, 71506);
+            Assert.AreEqual(71506, calories);
             #endregion
         }
 
@@ -85,7 +85,7 @@ namespace AdventOfCode2022.Tests
             #endregion
 
             #region Assert
-            Assert.AreEqual(calories, 209603);
+            Assert.AreEqual(209603, calories);
             #endregion
         }
     }

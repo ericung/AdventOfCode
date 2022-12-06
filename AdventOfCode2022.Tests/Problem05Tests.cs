@@ -68,7 +68,7 @@ namespace AdventOfCode2022.Tests
             #endregion
 
             #region Assert
-            Assert.AreEqual(results, new string("VRWBSFZWM"));
+            Assert.AreEqual(new string("VRWBSFZWM"), results);
             #endregion
         }
 
@@ -130,7 +130,7 @@ namespace AdventOfCode2022.Tests
             #endregion
 
             #region Assert
-            Assert.AreEqual(results, new string("RBTWJWMCF"));
+            Assert.AreEqual(new string("RBTWJWMCF"), results);
             #endregion
         }
 
