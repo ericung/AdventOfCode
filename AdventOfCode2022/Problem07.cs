@@ -10,78 +10,9 @@ namespace AdventOfCode2022
     {
         public long FindSum(List<string[]> terminal)
         {
-            Dictionary<string, List<string[]>> directory = new Dictionary<string, List<string[]>>();
-            string curPath = "/";
-            for (int i = 0; i < terminal.Count; i++)
-            {
-                var line = terminal[i];
-                if (line[0] == "$")
-                {
-                    switch(line[1])
-                    {
-                        case "cd": 
-                            switch (line[2])
-                            {
-                                case "..":
-                                    {
-                                        var split = curPath.Split('/');
-                                        StringBuilder sb = new StringBuilder();
-                                        for (int j = 0; j < split.Length-1; j++)
-                                        {
-                                            sb.Append(split[j]);
-                                            if (j < split.Length - 2)
-                                            {
-                                                sb.Append("/");
-                                            }
-                                        }
-                                        curPath = sb.ToString();
-                                        break;
-                                    }
-                                case "/":
-                                    curPath = "/";
-                                    break;
-                                default:
-                                    {
-                                        if (curPath == "/")
-                                        {
-                                            curPath += line[2];
-                                        }
-                                        else
-                                        {
-                                            curPath += "/" + line[2];
-                                        }
-                                        break;
-                                    }
-                            }
-                            break;
-                        case "ls":
-                            {
-                                for(i = i+1; i < terminal.Count && terminal[i][0] != "$"; i++)
-                                {
-                                    if (!directory.ContainsKey(curPath))
-                                    {
-                                        directory.Add(curPath, new List<string[]>()); 
-                                    }
-                                    if (terminal[i][0] == "dir")
-                                    {
-                                        directory[curPath].Add(new string[] { "dir", (curPath == "/" ? "" : curPath) + "/" + terminal[i][1] });
-                                    }
-                                    else
-                                    {
-                                        directory[curPath].Add(terminal[i]);
-                                    }
-                                }
-                                if (i < terminal.Count && terminal[i][0] == "$")
-                                {
-                                    i--;
-                                }
-                                break;
-                            }
-                    }
-                }
-            }
+            Dictionary<string, List<string[]>> directory = ConvertToDirectory(terminal);
 
-            Dictionary<string, long> pathSize = Recurse("/", directory, new Dictionary<string, long>());
+            Dictionary<string, long> pathSize = MapValues("/", directory, new Dictionary<string, long>());
 
             long sum = 0;
 
@@ -98,6 +29,26 @@ namespace AdventOfCode2022
 
         public long FindDirectory(List<string[]> terminal)
         {
+            Dictionary<string, List<string[]>> directory = ConvertToDirectory(terminal);
+
+            Dictionary<string, long> pathSize = MapValues("/", directory, new Dictionary<string, long>());
+
+            long dirSize = long.MaxValue;
+            long usedSpace = 70000000 - pathSize["/"];
+
+            foreach (KeyValuePair<string, long> pair in pathSize)
+            {
+                if ((pair.Key != "/") &&(usedSpace + pair.Value >= 30000000))
+                {
+                    dirSize = Math.Min(pair.Value, dirSize);
+                }
+            }
+
+            return dirSize;
+        }
+
+        private Dictionary<string, List<string[]>> ConvertToDirectory(List<string[]> terminal)
+        {
             Dictionary<string, List<string[]>> directory = new Dictionary<string, List<string[]>>();
             string curPath = "/";
             for (int i = 0; i < terminal.Count; i++)
@@ -169,23 +120,10 @@ namespace AdventOfCode2022
                 }
             }
 
-            Dictionary<string, long> pathSize = Recurse("/", directory, new Dictionary<string, long>());
-
-            long dirSize = long.MaxValue;
-            long usedSpace = 70000000 - pathSize["/"];
-
-            foreach (KeyValuePair<string, long> pair in pathSize)
-            {
-                if ((pair.Key != "/") &&(usedSpace + pair.Value >= 30000000))
-                {
-                    dirSize = Math.Min(pair.Value, dirSize);
-                }
-            }
-
-            return dirSize;
+            return directory;
         }
 
-        private Dictionary<string,long> Recurse(string curPath, Dictionary<string, List<string[]>> directory, Dictionary<string, long> pathSize)
+        private Dictionary<string,long> MapValues(string curPath, Dictionary<string, List<string[]>> directory, Dictionary<string, long> pathSize)
         {
             long sum = 0;
 
@@ -195,7 +133,7 @@ namespace AdventOfCode2022
                 {
                     if (item[0] == "dir")
                     {
-                        sum += Recurse(item[1], directory, pathSize)[item[1]];
+                        sum += MapValues(item[1], directory, pathSize)[item[1]];
                     }
                     else
                     {

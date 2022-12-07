@@ -35,18 +35,18 @@ namespace AdventOfCode2022
             foreach(var move in moves)
             {
                 int m = move[0];
-                List<char> order = new List<char>();
+                Stack<char> order = new Stack<char>();
                 var to = move[2] - 1;
                 var from = move[1] - 1;
 
                 for(int i = 0; i < m; i++)
                 {
-                    order.Add(crates[from].Pop());
+                    order.Push(crates[from].Pop());
                 }
 
                 for (int i = order.Count-1; i >= 0; i--)
                 {
-                    crates[to].Push(order[i]);
+                    crates[to].Push(order.Pop());
                 }
             }
 
